@@ -18,8 +18,8 @@ def load_images_from_folder(folder, label):
     return images, labels
 
 def segment_motor_helm(image):
-    _, segmented_image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    return segmented_image
+    edges = cv2.Canny(image, 100, 200)  
+    return edges
 
 def compute_lbp(image):
     radius = 1
@@ -64,6 +64,8 @@ for idx in random_indices:
     plt.tight_layout()
     plt.show()
     
+
+    # Menghitung nilai fitur LBP
     hist = cv2.calcHist([lbp], [0], None, [256], [0, 256])
     hist = hist.astype(np.float32)
     hist /= (hist.sum() + 1e-7)
